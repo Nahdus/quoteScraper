@@ -34,7 +34,7 @@ app.post('/quote/author', (req, res, next) =>{
         )
     
     })
-    app.listen(80, function () {
+    app.listen(process.env.PORT, function () {
         console.log('CORS-enabled web server listening on port 80')
       })
    
