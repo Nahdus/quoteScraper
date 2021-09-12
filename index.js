@@ -22,8 +22,19 @@ app.post('/quote/author', (req, res, next) =>{
             var noOfquote=doc('.quoteText').toArray().length
             var quoteIndex=Math.floor(Math.random() * noOfquote)
             // console.log(cheerio.load(doc('.quoteText').toArray()[quoteIndex]).text())
-                 
-            res.send(cheerio.load(doc('.quoteText').toArray()[quoteIndex]).text())
+            function splitQuotes(inp){
+                let [quote,author]=inp.split('—')
+                let formattedAuthor=author.trim().split(/\n/).map(item=>item.trim())
+                let formattedQuote=quote.trim()
+                
+                return {
+
+                    quote:formattedQuote,
+                    author:formattedAuthor.join('\n—')
+                }
+                }
+                
+            res.send(splitQuotes(cheerio.load(doc('.quoteText').toArray()[quoteIndex]).text())    )
         }
         )
         .catch(err=>{
@@ -34,8 +45,14 @@ app.post('/quote/author', (req, res, next) =>{
         )
     
     })
+
+
     app.listen(process.env.PORT, function () {
         console.log('CORS-enabled web server listening on port 80')
       })
+
+    //   app.listen(80, function () {
+    //     console.log('CORS-enabled web server listening on port 80')
+    //   })
    
   
